@@ -1,5 +1,6 @@
 import cv2
 import matplotlib.pyplot as plt
+import os
 
 
 class DataExtractor:
@@ -15,12 +16,16 @@ class DataExtractor:
         
         
     def load_image(self):
+        if not os.path.isfile(self.path):
+            raise FileNotFoundError(f"{self.path} not found")
         img = cv2.imread(self.path)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         img = cv2.resize(img, (0,0), fx=self.TEMPLATE_WIDTH/img.shape[1], fy=self.TEMPLATE_WIDTH/img.shape[1])
         self.img = img
         
     def load_template(self):
+        if not os.path.isfile(self.path_template):
+            raise FileNotFoundError(f"{self.path_template} not found")
         template = cv2.imread(self.path_template)
         template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
         self.template = template
@@ -62,7 +67,9 @@ class DataExtractor:
         plt.imshow(show_img, cmap="gray")
         plt.show()
     
-            
-ex = DataExtractor('/Users/robinfeldmann/Projects/opencv_tutorials/images/PHOTO3.jpg', '/Users/robinfeldmann/Projects/opencv_tutorials/templates/lower_bar.jpg')
-ex.find_anchor_and_scale()
-ex.show_img()
+
+if __name__ == "__main__":
+    path_to_file = os.path.dirname(os.path.abspath(__file__))           
+    ex = DataExtractor(path_to_file+'/images/PHOTO3.jpg', path_to_file+'/templates/lower_bar.jpg')
+    ex.find_anchor_and_scale()
+    ex.show_img()
