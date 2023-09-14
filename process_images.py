@@ -32,13 +32,15 @@ class DataExtractor:
         t_scale = 0
         
         
-        for scale in range(50,160):
+        for scale in range(60,200):
 
             cur_template = self.template.copy()
-            cur_template = cv2.resize(cur_template, (0,0), fx=scale/100, fy=scale/100)
-            result = cv2.matchTemplate(self.img, cur_template, self.METHOD)
+            #cur_template = cv2.resize(cur_template, (0,0), fx=scale/100, fy=scale/100)
+            cur_img = self.img.copy()
+            cur_img = cv2.resize(cur_img, (0,0), fx= (scale/100), fy= (scale/100))
+            result = cv2.matchTemplate(cur_img, cur_template, self.METHOD)
             h, w = cur_template.shape
-            _, max_val, _ , max_loc = cv2.minMaxLoc(result)
+            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
 
  
             location = max_loc
@@ -55,6 +57,7 @@ class DataExtractor:
         
     def show_img(self):
         show_img = self.img.copy()
+        show_img = cv2.resize(show_img, (0,0), fx=self.scale,fy=self.scale)
         cv2.rectangle(show_img, self.anchor_up, self.anchor_down, 0.5)
         plt.imshow(show_img, cmap="gray")
         plt.show()
