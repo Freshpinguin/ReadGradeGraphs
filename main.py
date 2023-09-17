@@ -1,5 +1,8 @@
 from src.request_classes import AuthRequest, OpenGradeViewRequest, ExpandGradesRequest, GetGradesRequest
+from src.data_classes import ExamFactory
 import requests
+
+
 
 session = requests.Session()
 auth = AuthRequest(username='username', password='password', session=session)
@@ -10,7 +13,9 @@ getgrades = GetGradesRequest(session = session)
 auth()
 opengrades()
 expandgrades()
+specifiers = expandgrades.get_specifiers()
 
-getgrades()
+for spec in specifiers:
+    getgrades(spec)
+    print(ExamFactory.exam_from_div(getgrades.get_data()[0]))
 
-print(getgrades.get_data())

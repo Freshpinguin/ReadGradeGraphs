@@ -53,8 +53,8 @@ class GetGradesRequest:
         self.session = session
         self.url = 'https://studium.ohmportal.de/qisserver/pages/sul/examAssessment/personExamsReadonly.xhtml'
 
-    def __call__(self) -> requests.Response:
-        resp = self.session.post(self.url, headers=GetGradesParams.HEADERS, params=GetGradesParams.PARAMS, data=GetGradesParams.DATA())
+    def __call__(self, specifier: str) -> requests.Response:
+        resp = self.session.post(self.url, headers=GetGradesParams.HEADERS, params=GetGradesParams.PARAMS, data=GetGradesParams.DATA(specifier=specifier))
         self.resp_text =resp.text
         return resp
     
