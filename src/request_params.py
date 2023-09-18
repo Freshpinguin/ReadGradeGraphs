@@ -2,7 +2,6 @@ from typing import Dict
 
 class AuthParams:
     HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/117.0',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
     'Accept-Language': 'en-GB,en;q=0.5',
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -24,7 +23,6 @@ class AuthParams:
     def DATA(username: str, password: str)-> Dict[str,str]:
         return {
         'userInfo': '',
-        'ajax-token': '44aa8590-54d4-11ee-a939-93f2023e23c4',
         'asdf': username,
         'fdsa': password,
         'submit': '',
@@ -32,7 +30,6 @@ class AuthParams:
     
 class ExpandParams:
     HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/117.0',
     'Accept': '*/*',
     'Accept-Language': 'en-GB,en;q=0.5',
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
@@ -54,7 +51,6 @@ class ExpandParams:
     'activePageElementId': '',
     'refreshButtonClickedId': '',
     'navigationPosition': 'hisinoneMeinStudium,examAssessmentForStudent',
-    'authenticity_token': 'rjMvGR/9a00qFhB9gEsFKxTsbWjqasFaKK6fuef8dqk=',
     'autoScroll': '',
     'examsReadonly:overviewAsTreeReadonly:collapsiblePanelCollapsedState': 'false',
     'examsReadonly:degreeProgramProgressForReportAsTree:collapsiblePanelCollapsedState': 'true',
@@ -71,7 +67,6 @@ class ExpandParams:
     
 class GetGradesParams:
     HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/117.0',
     'Accept': '*/*',
     'Accept-Language': 'en-GB,en;q=0.5',
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
@@ -94,7 +89,6 @@ class GetGradesParams:
     'activePageElementId': '',
     'refreshButtonClickedId': '',
     'navigationPosition': '',
-    'authenticity_token': '9oObIR6yznQik0lvVBduBU55q/48J5ViJzeOn9Pv/GY=',
     'autoScroll': '',
     'examsReadonly:overviewAsTreeReadonly:collapsiblePanelCollapsedState': 'false',
     'examsReadonly:degreeProgramProgressForReportAsTree:collapsiblePanelCollapsedState': 'true',

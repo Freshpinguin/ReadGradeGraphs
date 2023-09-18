@@ -17,5 +17,7 @@ specifiers = expandgrades.get_specifiers()
 
 for spec in specifiers:
     getgrades(spec)
-    print(ExamFactory.exam_from_div(getgrades.get_data()[0]))
-
+    exam = ExamFactory.exam_from_div(getgrades.get_data())
+    if exam is None:
+        continue
+    exam.write_to_csv("exams")

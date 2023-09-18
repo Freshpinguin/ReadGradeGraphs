@@ -60,6 +60,6 @@ class GetGradesRequest:
     
     def get_data(self) -> list:
         soup = BeautifulSoup(self.resp_text, features="lxml")
-        return soup.findAll(lambda tag: tag.name=="div" and tag.has_attr('id') and  tag['id']=="graphPlaceholder")
+        return soup.findAll(lambda tag: tag.name=="div" and tag.has_attr('id') and  tag['id']=="graphPlaceholder")[0]
     
     
