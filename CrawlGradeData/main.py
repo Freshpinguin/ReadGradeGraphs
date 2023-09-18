@@ -5,7 +5,7 @@ import requests
 
 
 session = requests.Session()
-auth = AuthRequest(username='rofe4543', password='Kr0kod!l', session=session)
+auth = AuthRequest(username='username', password='password', session=session)
 opengrades = OpenGradeViewRequest(session = session)
 expandgrades = ExpandGradesRequest(session = session)
 getgrades = GetGradesRequest(session = session)

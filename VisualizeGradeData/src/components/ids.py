@@ -1,0 +1,1 @@
+BAR_CHART = "bar-chart"
