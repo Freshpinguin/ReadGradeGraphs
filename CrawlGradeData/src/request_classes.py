@@ -47,6 +47,14 @@ class ExpandGradesRequest:
         soup = BeautifulSoup(self.resp_text,features="lxml")
         buttons = soup.findAll(lambda tag: tag.name=="button" and tag['title'] == "Klassenspiegel anzeigen")
         return [button['id'] for button in buttons]
+    
+    def get_exam_numbers(self, specifiers: List[str]) -> List[str]:
+        soup = BeautifulSoup(self.resp_text,features="lxml")
+        specifiers = [":".join(spec.split(":")[4:-2]) for spec in specifiers]
+        find_func = lambda spec, tag: tag.name=="span" and  tag.has_attr('id') and "elementnr" in tag['id'] and spec in tag['id']
+        divs = [soup.find(lambda tag: find_func(spec, tag)).text for spec in specifiers]
+        return divs
+    
 
 class GetGradesRequest:
     def __init__(self, session: requests.Session):
@@ -55,7 +63,7 @@ class GetGradesRequest:
 
     def __call__(self, specifier: str) -> requests.Response:
         resp = self.session.post(self.url, headers=GetGradesParams.HEADERS, params=GetGradesParams.PARAMS, data=GetGradesParams.DATA(specifier=specifier))
-        self.resp_text =resp.text
+        self.resp_text = resp.text
         return resp
     
     def get_data(self) -> list:

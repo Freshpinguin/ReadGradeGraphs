@@ -14,10 +14,11 @@ auth()
 opengrades()
 expandgrades()
 specifiers = expandgrades.get_specifiers()
+exam_nrs = expandgrades.get_exam_numbers(specifiers)
 
-for spec in specifiers:
+for spec, exam_nr in zip(specifiers,exam_nrs):
     getgrades(spec)
-    exam = ExamFactory.exam_from_div(getgrades.get_data())
+    exam = ExamFactory.exam_from_div(getgrades.get_data(), exam_nr=exam_nr)
     if exam is None:
         continue
-    exam.write_to_csv("exams")
+    exam.write_to_csv("data/exams_test")

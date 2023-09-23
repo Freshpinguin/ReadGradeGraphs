@@ -15,6 +15,11 @@ def render(app: Dash, df: pd.DataFrame) -> html.Div:
 
     #     return html.Div(dcc.Graph(figure=fig), id=ids.BAR_CHART)
 
+    df = df.sort_values("semester")
+
+    df = df.assign(
+        semester = df['semester'].apply(lambda x: x.name)
+    )
     fig = px.bar(
         df,
         x= DataSchemaGraded.SEMESTER,

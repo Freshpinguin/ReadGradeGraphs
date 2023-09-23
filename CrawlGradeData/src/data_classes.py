@@ -25,18 +25,21 @@ class Semester(BaseModel):
     
     def __ge__(self, other):
         return self.value >= other.value
+    
+
 
 
 class Exam(BaseModel):
     lecture: str
     semester: Semester
     all_grades: int
+    exam_nr: str
 
     def headers(self) -> List[str]:
-        return ['lecture','semester','nGrades']
+        return ['lecture','semester','nGrades','exam_nr']
     
     def values(self) -> List:
-        return [self.lecture, self.semester.value, self.all_grades]
+        return [self.lecture, self.semester.value, self.all_grades, self.exam_nr]
     
     def write_to_csv(self, path:str) -> None:
 
@@ -90,7 +93,7 @@ class ExamFactory:
         return semester
 
     @staticmethod
-    def exam_from_div(div:Tag) -> Exam:
+    def exam_from_div(div:Tag, exam_nr: str) -> Exam:
         bar_charts = json.loads(div['data-barcharts'])['barCharts']
         if len(bar_charts) ==0:
             return None
@@ -112,6 +115,7 @@ class ExamFactory:
             return gradedExam(
                 lecture=lecture,
                 semester=semester,
+                exam_nr = exam_nr,
                 all_grades=all_grades,
                 grade_numbers=grades,
                 mean_value=mean_value,
@@ -141,6 +145,7 @@ class ExamFactory:
             return passedExam(
                 lecture=lecture,
                 semester=semester,
+                exam_nr= exam_nr,
                 all_grades=all_grades,
                 passed = passed,
                 not_passed= not_passed,
