@@ -7,22 +7,24 @@ from ..data.loader import DataSchemaGraded
 from . import ids
 
 def render(app: Dash, df: pd.DataFrame) -> html.Div:
-    # @app.callback(
-    #     Output(ids.BAR_CHART, "children"),
-    #     Input(ids.BAR_CHART, "value")
-    # )
-    # def update_bar_chart() -> html.Div:
-
-    #     return html.Div(dcc.Graph(figure=fig), id=ids.BAR_CHART)
+    @app.callback(
+        Output(ids.BAR_CHART, "children"),
+        Input(ids.BAR_CHART, "value")
+    )
+    def update_bar_chart(value) -> html.Div:
+        print(value)
+        return html.Div(dcc.Graph(figure=fig), id=ids.BAR_CHART)
 
     df = df.sort_values("semester")
 
     df = df.assign(
         semester = df['semester'].apply(lambda x: x.name)
     )
+    df = df[["mean_value","durchfall_quote","lecture","semester"]].groupby(by=["lecture", "semester"]).mean()
+    print(df.head())
     fig = px.bar(
         df,
-        x= DataSchemaGraded.SEMESTER,
+        x= [DataSchemaGraded.SEMESTER, DataSchemaGraded.VORLESUNG],
         y=DataSchemaGraded.MEAN,
         color=DataSchemaGraded.VORLESUNG
     )

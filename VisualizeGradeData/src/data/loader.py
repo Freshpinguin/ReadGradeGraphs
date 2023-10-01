@@ -25,6 +25,7 @@ class DataSchemaGraded(StrEnum):
     DURCHFALL = "durchfall_quote"
 
 
+
 @total_ordering
 class TestClass():
     def __init__(self, value: float):
@@ -51,6 +52,7 @@ def load_grades_exams_data(path : str) -> pd.DataFrame:
     df = pd.read_csv(path)
     df = df.assign(
         semester = df[DataSchemaGraded.SEMESTER].apply(lambda x: TestClass(x)),
-        durchfall_quote = df.apply(lambda x: x[DataSchemaGraded.FÜNF]/x[DataSchemaGraded.ANZAHL], axis=1)
+        durchfall_quote = df.apply(lambda x: x[DataSchemaGraded.FÜNF]/x[DataSchemaGraded.ANZAHL], axis=1),
+        prof = df['semester'].apply(lambda x: "UNKNOWN")
     )
     return df
