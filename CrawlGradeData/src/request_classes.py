@@ -1,5 +1,4 @@
 from typing import List
-import lxml
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 import requests
 import warnings
@@ -15,8 +14,12 @@ class AuthRequest:
         self.url = 'https://studium.ohmportal.de/qisserver/rds'
         
     def __call__(self) -> requests.Response:
-        return self.session.post(self.url, params=AuthParams.PARAMS, headers=AuthParams.HEADERS, data=AuthParams.DATA(username=self.username, password=self.password))
-    
+        resp = self.session.post(self.url, params=AuthParams.PARAMS, headers=AuthParams.HEADERS, data=AuthParams.DATA(username=self.username, password=self.password))
+        failed = "Ihre Anmeldung war leider nicht erfolgreich. Bitte versuchen Sie es noch einmal und prüfen Sie die Benutzerkennung und das Passwort"
+
+        if failed in resp.text:
+            raise Exception("Authentification failed. Try with correct credentials.")
+
 
 class OpenGradeViewRequest:
     def __init__(self, session: requests.Session):
