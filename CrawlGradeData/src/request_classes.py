@@ -18,10 +18,12 @@ class AuthRequest:
         
     def __call__(self) -> requests.Response:
         resp = self.session.post(self.url, params=AuthParams.PARAMS, headers=AuthParams.HEADERS, data=AuthParams.DATA(username=self.username, password=self.password))
+
         failed = "Ihre Anmeldung war leider nicht erfolgreich. Bitte versuchen Sie es noch einmal und prüfen Sie die Benutzerkennung und das Passwort"
 
         if failed in resp.text:
             raise Exception("Authentification failed. Try with correct credentials.")
+
 
         return resp
 
@@ -43,8 +45,11 @@ class ExpandGradesRequest:
     """
     def __init__(self, session: requests.Session):
         self.session = session
-        self.url = 'https://studium.ohmportal.de/qisserver/pages/sul/examAssessment/personExamsReadonly.xhtml'
+        self.url = 	"https://studium.ohmportal.de/qisserver/pages/sul/examAssessment/personExamsReadonly.xhtml?_flowId=examsOverviewForPerson-flow&_flowExecutionKey=e1s1"
+
+        # 'https://studium.ohmportal.de/qisserver/pages/sul/examAssessment/personExamsReadonly.xhtml'
     
+   
     def __call__(self) -> requests.Response:
         resp = self.session.post(
         self.url,
@@ -54,6 +59,7 @@ class ExpandGradesRequest:
         )
 
         self.resp_text = resp.text
+
         return resp
     
     def get_specifiers(self) -> List[str]:
@@ -61,7 +67,7 @@ class ExpandGradesRequest:
         Get specifier for every single existing exam, necessary to query the data afterwards.
         """
         soup = BeautifulSoup(self.resp_text,features="lxml")
-        buttons = soup.findAll(lambda tag: tag.name=="button" and tag['title'] == "Klassenspiegel anzeigen")
+        buttons = soup.findAll(lambda tag: tag.name=="button" and tag['title'] == "Notenverteilung anzeigen")
         return [button['id'] for button in buttons]
     
     def get_exam_numbers(self, specifiers: List[str]) -> List[str]:
